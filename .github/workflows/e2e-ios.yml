@@ -38,20 +38,5 @@ jobs:
         if: steps.cache-cocoapods.outputs.cache-hit != 'true'
         run: cd ios && pod install && cd ..
 
-      - name: Detox rebuild framework cache
-        run: yarn detox rebuild-framework-cache
-
-      - name: Cache Detox build
-        id: cache-detox-build
-        uses: actions/cache@v3
-        with:
-          path: ios/build
-          key: ${{ runner.os }}-detox-build
-          restore-keys: |
-            ${{ runner.os }}-detox-build
-
-      - name: Detox build
-        run: yarn detox build --configuration ios.sim.debug
-
       - name: Detox test
         run: yarn detox test --configuration ios.sim.debug --cleanup --headless --record-logs all
