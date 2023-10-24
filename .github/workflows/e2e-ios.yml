@@ -36,7 +36,7 @@ jobs:
 
       - name: Install CocoaPods
         if: steps.cache-cocoapods.outputs.cache-hit != 'true'
-        run: cd ios ; pod install ; cd -
+        run: cd ios && pod install && cd ..
 
       - name: Detox rebuild framework cache
         run: yarn detox rebuild-framework-cache
@@ -51,7 +51,7 @@ jobs:
             ${{ runner.os }}-detox-build
 
       - name: Detox build
-        run: yarn detox build --configuration ios.sim.release
+        run: yarn detox build --configuration ios.sim.debug
 
       - name: Detox test
-        run: yarn detox test --configuration ios.sim.release --cleanup --headless --record-logs all
+        run: yarn detox test --configuration ios.sim.debug --cleanup --headless --record-logs all
