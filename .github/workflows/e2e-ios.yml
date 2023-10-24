@@ -11,3 +11,16 @@ jobs:
 
       - name: Install CocoaPods
         run: cd ios ; pod install ; cd -
+
+      - name: Detox build
+        run: yarn detox build --configuration ios.sim.release
+
+      - name: Detox test
+        run: yarn detox test --configuration ios.sim.release --cleanup --headless --record-logs all
+
+      - name: Upload artifacts
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: detox-artifacts
+          path: artifacts
